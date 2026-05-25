@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Karenchus ✦ Calendario de Adviento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #1E0A10;      
+            --bg-carta: #FFFDF4;     
+            --rojo-principal: #A32A3E;
+            --rojo-oscuro: #5C1220;   
+            --rosa-pastel: #F5D6DA;   
+            --borde-color: #5C1220;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            border-radius: 0 !important; 
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--bg-carta);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#FFFDF4 0.5px, transparent 0);
+            background-size: 40px 40px;
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .main-container {
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        header .sub {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--rosa-pastel);
+            margin-bottom: 5px;
+        }
+
+        header h1 {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: 4.5rem;
+            line-height: 1;
+            font-weight: 400;
+            color: var(--bg-carta);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+        }
+
+        header .ornamento {
+            font-size: 1.2rem;
+            color: var(--rosa-pastel);
+            margin-top: 5px;
+        }
+
+        .carta-container {
+            background-color: var(--bg-carta);
+            color: #241115;
+            border: 3px double var(--borde-color);
+            padding: 35px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .carta-container h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 2px;
+            color: var(--rojo-oscuro);
+            border-bottom: 1px solid rgba(92, 18, 32, 0.2);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .carta-body {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            text-align: justify;
+            max-height: 380px;
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+
+        .carta-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        .carta-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .carta-body::-webkit-scrollbar-thumb {
+            background: var(--rojo-principal);
+        }
+
+        .carta-firma {
+            text-align: right;
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: 1.6rem;
+            margin-top: 15px;
+            color: var(--rojo-oscuro);
+        }
+
+        .section-title-box {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .section-title-box span {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--rosa-pastel);
+            display: block;
+            margin-bottom: 5px;
+        }
+        .section-title-box h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.8rem;
+            font-weight: 400;
+            color: var(--bg-carta);
+        }
+        .section-title-box p {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .grid-calendario {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 12px;
+        }
+
+        .puerta {
+            aspect-ratio: 1 / 1;
+            border: 1px solid rgba(255, 253, 244, 0.2);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .puerta.cerrada {
+            background-color: var(--rojo-principal);
+            color: var(--bg-carta);
+        }
+        .puerta.cerrada:hover {
+            background-color: var(--rojo-oscuro);
+            transform: translateY(-2px);
+        }
+        .puerta.cerrada .numero {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+        .puerta.cerrada .sub-icono {
+            font-size: 0.6rem;
+            opacity: 0.6;
+            margin-top: 2px;
+        }
+
+        .puerta.abierta {
+            background-color: var(--bg-carta);
+            color: var(--rojo-oscuro);
+            border: 1px solid var(--rojo-oscuro);
+            box-shadow: inset 0 0 10px rgba(92, 12, 32, 0.1);
+        }
+        .puerta.abierta .icono {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+        .puerta.abierta .titulo-mision {
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        .puerta.abierta .dia-ref {
+            font-size: 0.6rem;
+            opacity: 0.7;
+            margin-top: auto;
+        }
+
+        .contador-texto {
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            opacity: 0.8;
+            font-family: monospace;
+        }
+
+        .grid-bonus {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        @media (max-width: 500px) {
+            .grid-bonus { grid-template-columns: 1fr; }
+        }
+
+        .bonus-card {
+            min-height: 110px;
+            border: 1px solid rgba(255, 253, 244, 0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .bonus-card.cerrado {
+            background-color: var(--rojo-principal);
+            color: var(--bg-carta);
+        }
+        .bonus-card.cerrado:hover {
+            background-color: var(--rojo-oscuro);
+        }
+
+        .bonus-card.abierto {
+            background-color: var(--bg-carta);
+            color: var(--rojo-oscuro);
+            border: 1px solid var(--rojo-oscuro);
+        }
+        .bonus-card.abierto .icono {
+            font-size: 1.5rem;
+            color: var(--rojo-principal);
+            margin-bottom: 6px;
+        }
+        .bonus-card.abierto .texto {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .music-player-widget {
+            border: 1px dashed var(--rosa-pastel);
+            padding: 15px;
+            text-align: center;
+            background: rgba(255,255,255,0.02);
+            margin: 20px 0;
+        }
+        .music-player-widget input {
+            background: transparent;
+            border: 1px solid var(--rosa-pastel);
+            color: var(--bg-carta);
+            padding: 6px 10px;
+            width: 70%;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        .music-player-widget button {
+            background: var(--rojo-principal);
+            color: var(--bg-carta);
+            border: none;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 10, 16, 0.9);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .modal {
+            background-color: var(--bg-carta);
+            color: var(--rojo-oscuro);
+            border: 2px solid var(--rojo-oscuro);
+            max-width: 580px;
+            width: 100%;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            padding: 35px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            position: relative;
+            animation: popIn 0.2s ease-out;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.93); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--rojo-oscuro);
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .modal-header {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: var(--rojo-principal);
+            border-bottom: 1px solid rgba(92, 12, 32, 0.1);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .modal-body {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            text-align: justify;
+            overflow-y: auto;
+            padding-right: 12px;
+        }
+        .modal-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        .modal-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .modal-body::-webkit-scrollbar-thumb {
+            background: var(--rojo-principal);
+        }
+
+        .tarot-grid-interna {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .tarot-card-btn {
+            background: var(--rojo-principal);
+            color: var(--bg-carta);
+            border: 1px solid var(--rojo-oscuro);
+            padding: 8px 4px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .tarot-card-btn:hover {
+            background: var(--rojo-oscuro);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.75rem;
+            opacity: 0.6;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-bg"></div>
+
+    <div class="main-container">
+        
+        <header>
+            <div class="sub">✦ PARA KAREN ✦</div>
+            <h1>Feliz vida, Karen</h1>
+            <div class="ornamento">❧</div>
+        </header>
+
+        <section class="carta-container">
+            <h2>FELIZ CUMPLE KARENCHUS.</h2>
+            <div class="carta-body">
+                Mi bella cocinera ezeizense, feliz cumpleaños, feliz vida, feliz existencia y feliz experiencia, espero que te la estés pasando genial allá y que sea mucho mejor que la vida que llevabas en la costa, que todos los dolores estén sanando y que no extrañes mucho la simplicidad de este lugar. Personalmente te extraño muchísimo, extraño caerte a tu casa, leerte las cartas, hablar de pelotudeces, pasear juntos, tomar juntos, todo, sos una pieza muy importante en mi vida que constituye gran parte de lo que soy hoy en día y agradezco cada segundo de nuestro crecimiento que pasamos juntos, y hoy, me alegra poder estar felicitándote un año más de vida, un año lleno de metas, de expectativas, de crecimiento, de aprendizajes, de experiencias y de sensaciones. 
+                <br><br>
+                Lamento mucho no poder estar presente y tener que darte mis palabras por una pantalla, pero uno debe ser adaptable a las circunstancias y confiar en que pronto vamos a volver a vernos, de igual manera la distancia me obligó a ser creativo, más de lo usual (el jura 💜), y tuve que pensar un buen regalo virtual, uno que puedas disfrutar y uno que sea lo suficientemente original como para compensar la distancia, después de todo por algo soy Aaron Cifarelli y no un Aron cualquiera con una sola e insípida "A". Volviendo al tema, espero que se te sea un día especial lleno de sorpresas y magia, y que no se quede atrás de ninguno de tus otros cumpleaños.
+                <br><br>
+                Reitero, feliz cumpleaños, feliz vida, feliz existencia y feliz crecimiento, por un año más de amor, llantos, magia y experiencias, te extraño y te amo con el alma, nos estamos hablando 💗
+            </div>
+            <div class="carta-firma">- Aaron 💜</div>
+        </section>
+
+        <section>
+            <div class="section-title-box">
+                <span>TU CALENDARIO</span>
+                <h3>Calendario de Adviento</h3>
+                <p>Abrí cada puerta y descubrí tu sorpresa</p>
+            </div>
+
+            <div class="grid-calendario" id="calendarioAvent"></div>
+            <div class="contador-texto" id="contadorPuertas">0 de 20 puertas abiertas</div>
+        </section>
+
+    
+
+    
+
+        <footer>
+            hecho con amor desde la distancia 💕
+        </footer>
+
+    </div>
+
+    <div class="overlay" id="modalOverlay" onclick="cerrarModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="ocultarModal()">×</button>
+            <div class="modal-header" id="mTitle">Título</div>
+            <div class="modal-body" id="mBody">Contenido...</div>
+        </div>
+    </div>
+
+    <script>
+        const arcanosCompletos = {
+            0: { n: "0. EL LOCO 🃏", s: "Nuevos comienzos, saltos de fe y libertad. Te dice que no tengas miedo de arrancar desde cero en tu nueva rutina en Ezeiza; confía en tu intuición y camina con el corazón libre." },
+            1: { n: "I. EL MAGO 🪄", s: "Poder absoluto y manifestación. Tenés todas las herramientas necesarias (en tu alma y en tus manos) para dar forma a lo que te propongas. Es hora de actuar." },
+            2: { n: "II. LA SACERDOTISA 🔮", s: "Intuición, misterio y silencio. Escuchá esa voz interna en tu espacio. No busques respuestas afuera; todo lo que necesitás saber ya duerme in tu interior." },
+            3: { n: "III. LA EMPERATRIZ 🌿", s: "Creatividad, fertilidad y arte. Conecta directo con tu don de transformar y nutrir a través de la cocina y el arte. Dejá que tu parte brillante florezca sin frenos." },
+            4: { n: "IV. EL EMPERADOR 👑", s: "Estructura, estabilidad y autoridad. Estás construyendo las bases sólidas de tu nuevo camino. Tenés el control y el poder de ordenar tu propio universo." },
+            5: { n: "V. EL HIEROFANTE 📜", s: "Sabiduría tradicional y guía espiritual. Es un llamado a reconectar con tus aprendizajes profundos y buscar el significado trascendental en las acciones cotidianas." },
+            6: { n: "VI. LOS ENAMORADOS 💖", s: "Elecciones del corazón y armonía. Te recuerda elegir siempre desde el amor genuino, alineándote con tus verdaderos deseos y con la gente que te equilibra." },
+            7: { n: "VII. EL CARRO ⚔️", s: "Determinación, avance y victoria. Tenés las riendas del destino bien sujetas. Seguí adelante con paso firme, las dificultades se rinden ante tu voluntad." },
+            8: { n: "VIII. LA FUERZA 🦁", s: "Coraje templado y control interno. Tu poder real no es la violencia, sino la resistencia compasiva y la ternura con la que domás tus propios miedos." },
+            9: { n: "IX. EL ERMITAÑO 🕯️", s: "Introspección y autoconocimiento. Tomate un momento para aislarte del ruido externo y encender tu propia lámpara. La soledad elegida trae mucha claridad." },
+            10: { n: "X. LA RUEDA DE LA FORTUNA 🔄", s: "Cambios de ciclos y destino. La vida gira constantemente. Si estás pasando por momentos de cambio, recordá que todo fluye y nuevas oportunidades están subiendo." },
+            11: { n: "XI. LA JUSTICIA ⚖️", s: "Equilibrio, honestidad y causa-efecto. Cosechás lo que sembrás. Actuá con integridad; el universo se encargará de acomodar las piezas de forma justa." },
+            12: { n: "XII. EL COLGADO ⏳", s: "Pausa estratégica y nuevas perspectivas. A veces es necesario detenerse y mirar las cosas al revés para entender el panorama completo. Sacrificio que trae claridad." },
+            13: { n: "XIII. LA MUERTE 💀", s: "Transformación profunda y renacimiento. Dejaste la costa para transmutar. Cortá con lo viejo sin dolor; es la única forma de darle espacio a lo nuevo." },
+            14: { n: "XIV. LA TEMPLANZA 🕊️", s: "Alquimia emocional, paciencia y balance. Mezclá tus vivencias con suavidad. Estás sanando heridas y encontrando la armonía exacta en tu día a día." },
+            15: { n: "XV. EL DIABLO 😈", s: "Enfrentar sombras, apegos y deseos reprimidos. No dejes que los miedos o las estructuras impuestas te aten. Reconocé tu poder pasional pero mantené tu libertad." },
+            16: { n: "XVI. LA TORRE ⚡", s: "Revelación abrupta y caída de estructuras falsas. Si algo se rompe o se desarma de golpe, no llores; se destruye lo inestable para construir sobre bases reales." },
+            17: { n: "XVII. LA ESTRELLA ⭐", s: "Esperanza, inspiración y guía celestial. Hay una luz brillante guiándote a la distancia. Confía plenamente en tu camino, estás protegida y bendecida." },
+            18: { n: "XVIII. LA LUNA 🌙", s: "Sueños, subconsciente e ilusiones. La noche tiene secretos y la imaginación vuela. Ojo con los engaños de la mente, usá esa energía nocturna para crear arte." },
+            19: { n: "XIX. EL SOL ☀️", s: "Éxito absoluto, vitalidad y felicidad pura. Tu energía brilla con fuerza. Todo lo que toques se llena de luz, claridad y calor. Disfrutá tu momento." },
+            20: { n: "XX. EL JUICIO 🔔", s: "Despertar espiritual, balance y redención. Es momento de hacer un llamado a tu versión más auténtica, perdonarte el pasado y renacer libre de culpas." },
+            21: { n: "XXI. EL MUNDO 🪐", s: "Realización completa, triunfo y plenitud total. Llegaste a la meta de un gran ciclo. El universo te sonríe; estás exactamente donde debés estar." }
+        };
+
+        function seleccionarArcano(num) {
+            const info = arcanosCompletos[num];
+            const contenedor = document.getElementById('tarotResponseBox');
+            contenedor.innerHTML = `
+                <div style="margin-top: 15px; padding: 15px; border: 1px dashed var(--rojo-principal); background: rgba(163, 42, 62, 0.05); animation: popIn 0.3s ease;">
+                    <strong style="color: var(--rojo-principal); font-family: 'Cinzel', serif; display:block; margin-bottom: 5px;">${info.n}</strong>
+                    <p style="font-size: 0.9rem; line-height: 1.5; color: #241115; text-align: justify;">${info.s}</p>
+                </div>
+            `;
+        }
+
+        const textoDia1 = `FELIZ CUMPLE KAREN. Espero que te la estés pasando genial en tu día especial (o que la vayas a pasar genial, depende de cuándo abras esto JHDJKSFDHA). Cuestión, me alegro de que decidieras empezar esta aventura de 20 días que te preparé; fue mucho el tiempo que me tomé para pensar qué podía regalarte a la distancia. No quería caer en lo básico que haría una persona promedio, quería darte algo real, algo nuestro... no algo físico, sino más bien una experiencia. Y para este primer día, quiero que escuches, o más bien, leas estas pseudo-instrucciones:\n\nEsto, por más que sea un calendario de adviento, no necesitás tratarlo como tal. No hace falta que cumplas todo y que lo hagas en ese orden exacto; realmente la mayoría de los días van a ser cartas y pequeños pensamientos míos que no te diría en situaciones cotidianas. Otros de estos regalos son misiones que decidí plantearte para que este regalo realmente sea una experiencia real. Estoy intentando que no sean tantas como para poder respetar tus horarios lo más posible, y que la mayoría de las cosas que te voy a pedir sean cosas simples que puedas hacer desde casa.\n\nTambién, al final de la página incluí un calendario bonus en el que vas a poder encontrar cosas que podés abrir cuando quieras y cuando lo necesites; cada uno va a tener un título específico para que te vayas guiando, jeje. ;)\n\n¡Debo aclarar! El calendario no tiene memoria, así que cada vez que ingreses vas a tener que volver a abrir tus regalos anteriores. Espero que no sea mucha paja; realmente no hace falta, pero por si los querés volver a ver, libre sos de hacerlo.\n\nPor último, debo decir que espero que disfrutes este regalo de 20 días que preparé. Siento que sos la clase de persona que podría disfrutar de estas cosas; esa parte brillante y creativa que vive adentro de vos, quiero que la despiertes otra vez. Como cuando pintábamos discos o cuando hacías figuras de porcelana... ahora transmitís ese arte en la cocina, pero quiero traerte esas sensaciones de vuelta.\n\nFinalmente, como tarea de hoy, voy a pedirte que disfrutes tu cumpleaños y que, al soplar la vela —como a todos nos toca—, pidas un deseo de corazón: algo especial y algo genuino.\n\nEso sería todo por hoy. De vuelta, ¡¡feliz cumpleaños!! Te amo y pronto nos estaremos viendo... más pronto de lo que te podrías imaginar.`;
+
+        const poemaDia2 = `De sol nacemos y de luna morimos,\npero de luna soñamos y de sol dormimos.\nCrecemos, sin parar, desde los cinco hasta la eternidad.\nUno toma conciencia, se lastima, duele y luego nace;\nnada ni nadie te puede preparar,\nno lo hace Dios, no lo hará nadie más.\nPero uno debe doler y sangrar,\nporque sin sangre a derramar el espejo solo un cuadro será.\nEspero estrellas veas morir y nacer, que tus ojos brillen en nebulosa astral,\ny que no llores cuando tus rodillas se vayan a raspar,\npues aprendemos a ser cautelosos en la caída\ny así, aprendemos a crecer un año más.\n\n- Artu`;
+
+        const introDia3 = "Hola Karenchus, ¿cómo estás? Espero que bien. En el día de hoy vengo a traerte algo que sé que te va a gustar: ¡TAROT! Probablemente tengas cosas rondando en tu cabeza ahora mismo, por eso te voy a dejar algo especial para obtener respuestas. Quiero que en tu interior te preguntes algo de todo corazón y elijas una de las 22 cartas tapadas de acá abajo... esa va a ser tu respuesta.";
+
+        const datosMisiones = {
+            1: { abierto: false, icono: "✉️", titulo: "DÍA 1: Carta Especial", desc: textoDia1 },
+            2: { abierto: false, icono: "🌙", titulo: "DÍA 2: Sobre crecer", desc: poemaDia2 },
+            3: { abierto: false, icono: "🔮", titulo: "DÍA 3: Una respuesta", desc: "TAROT_INTERACTIVO" },
+            4: { abierto: false, icono: "🕯️", titulo: "Día 4: Diccionario", desc: `qondiiis, como va? bienvenida al dia 4, en el dia de hoy te voy a asignar una mision muy importante.\n\nquiero que recuerdes nuestros momentos, nuestros chistes en especifico, pensa pensa, pensa un poco mas\n\nbueno, la mision para hoy va a ser intentar explicar de la manera mas seria y cientifica posible alguna de nuestras experiencias absurdas o chistes internos, como si fuera un documental y enviarme un video explicandolo con total seriedad, va?\n\nnos vemos karenchus, suerte con el reto de hoy!!` },
+            5: { abierto: false, icono: "🦊", titulo: "Día 5: El lente humano", desc: `Buen dia, buenas tardes, buenas noches, espero que buen dia la verdad.\n¿todo bien karen? espero que genial y seas bienvenida al dia 5\n\nla mision de hoy se trata de arte, lo que te voy a pedir es que alrededor de todo el dia te empeñes en sacar fotos a las cosas cotidianas pero que te parezcan hermosas, para cuando llegue la noche, vas a tener un dump de fotos que significan algo para vos y solo para vos, espero y me las envies\n\nNos vemoooos!! bye bye y suerte` },
+            6: { abierto: false, icono: "🦌", titulo: "Día 6: Cita de café", desc: `buenas tardes, digo, por que espero que hagas esto durante la tarde, da igual si no, es solo mi vision\n\nbienvenida a la mision 6;\n\npara la mision de hoy te voy a pedir que te desconectes del mundo, tu reto va a ser prepararte un cafe, aislarte, soltar el celular, y pasar al menos 2 horas sin hacer nada mas que tomar cafe y pensar internamente. al final del reto vas a mandarle un mensaje a alguien diciendo "estoy viva".\n\neso es todo por hoy, buena suerte!! te quiero mucho karenchus!!` },
+            7: { abierto: false, icono: "🌟", titulo: "Día 7: Sobre el amor", desc: `un dia naci, sali del capuyo\nsensible, debil, bajo una gran lluvia\nel mundo, de espinas por naturaleza, razgaba mi sensible piel y me causaba sangrar\npero una mano me vino a rescatar\nmano en quien confiar, hombro sobre el cual llorar\nlas astillas retiro, con su cuerpo me cubrio, por primera vez senti algo nuevo, algo que no tenia nombre aun, y que nombre no sabria destacar\ny me hacia llorar, no por mal pero por bien tampoco\ndolia, pero no como el mundo\nsi no como yo sola podia, como nadie mas me enseño\ny llore, y no pare de llorar, y no pararia de llorar tampoco\npor que fue mano la cual me rescato, y rostro por el cual hoy quiero amar\nmundo que pronto me va a dejar, pero corazon que yo tengo, me hizo fuerte y por mas que duela, el sangrado aprendio a parar.\n\n- artu` },
+            8: { abierto: false, icono: "🍷", titulo: "Día 8: Sobre recordar", desc: `veo al horizonte en mis sueños, celeste, naranja y azul de mar\nviento, tanto viento, mi boca se lo quiere tragar\nojos frios, manos que tiemblan, pero aun asi me quiero quedar\nun rato mas nada mas, solo un rato mas\nporque aunque me muera de frio, a esto llamo hogar, y es el unico hogar al cual quiero llamar\nno hay casa o cafe, educacion o edificio que pueda cambiar, la espuma, el sol y el mar que tanto eh llegado a amar\nno hay mucho lo se, de mentir no mentire\npero de recuerdos llene esta tierra, y de recuerdos morire` },
+            9: { abierto: false, icono: "🍳", titulo: "Día 9: Desahogo", desc: `holis karenchus, como estas? hoy no importa la respuesta, o mas bien, importa mas de lo usual, por que hoy es el dia 9 y la mision que te voy a pedir va a ser que te vayas a desahogar\n\nda igual de que, de tu familia, de tus amigos, de tus recuerdos, de tus frustraciones, pero es importante que lo hagas, asi que, por hoy te voy a pedir que te acuestes en tu cama y escribas. Escribi todo lo que puedas, al principio va a costar, mucho, mas de lo que te imaginas, pero creeme, este espacio es necesario aveces para mirar hacia adentro\n\nasi que cuando estes lista, encerrate con hojas, lapiceras y un encendedor, por que despues de deshaogarte, vas a quemar cada  uno de esos textos, como forma de decir adios\n\nespero que te sirva el reto de hoy!! te quiero mucho karen, y buena suerte!!` },
+            10: { abierto: false, icono: "🌙", titulo: "Día 10: Recordemos", desc: `qonda qonda karenchus ¿va bien la cosa? espero que mejor\n\nbienvenida al dia 10, un dia muy especial, de los primeros que pense.\nHoy te toca recordar, tu mision de hoy va a ser entrar a spotify y armar una playlist de por lo menos 10 canciones que te hagan acordar a la costa, para el final del dia, vas a tener que enviarme la playlist\n\nespero que te guste la mision de hoy!! mucha suerte y espero te la pases bien haciendola, bye bye!!!` },
+            11: { abierto: false, icono: "✨", titulo: "Día 11: El amor del tímpano", desc: `buen dia, tarde o noche, como va?\n\nqtal karenchus, bienvenida al dia 11, para este dia te prepare un regalo, ¿te acordas de la playlist de ayer? bueno, mientras vos hacias una playlist que te hiciera acordar a la costa, yo te prepare una que me hace acordar de vos, asi que lo unico que te voy a exigir hoy es que te tomes un tiempecito para escucharla, si?\n\nte quiero mucho karenchus, nunca te olvides de eso!! y espero que sigas disfrutando de los retos!! nos vemossss\n\nlink: https://open.spotify.com/playlist/5KamGTTBNLjZtLoVCF2akV?si=RgeVqUzASBCOeWHzjAPB1A` },
+            12: { abierto: false, icono: "👣", titulo: "Día 12: Hola, otra vez", desc: "AUDIO_PLAYER_PLAY" },
+            13: { abierto: false, icono: "🎨", titulo: "Día 13: Sobre esencia", desc: `uno es y fue tantas cosas\npero quien fue el que invento la mentira de quien no cambia?\nel humano tan cambiante es, cambiamos, cambiamos y no paramos\ny uno no debe detenerse por nadie mas, querida\npues de esencia no hay nada escrito\nestamos hechos para cambiar\ny al cambio no temas\nporque duele mas aferrarse a la rosa bella que te clava sus espinas, que soltarla y plantar un lirio fresco y blanco` },
+            14: { abierto: false, icono: "📦", titulo: "Día 14: El humorista", desc: `buen dia karenchus, espero que te hayas levantado de buen humor hoy, porque para el dia 14 te tengo una gran mision\n\ntu reto de hoy, como dice el titulo, va a ser volverte una humorista. Para por lo menos la mitad del dia vas a tener que inventarte un chiste y hacer reir por lo menos a una persona, una vez que alguien se ria de tu chiste inventado, terminaste el reto\n\nbuena suerte!! la vas a necesitar JKAHSJFH` },
+            15: { abierto: false, icono: "🌪️", titulo: "Día 15: Mariposas", desc: `que onda karen¿todo bien? en el dia de hoy vengo a pedirte algo especial\n\ndia 15, mariposas por la ciudad\n\ntu mision para hoy va a ser escribir cartas misteriosas sin nombre ni autor y dejarlas por la ciudad, entre ladrillos, en un poste de luz, en un banco, ponelas donde quieras, pero explota tu imaginacion, arma historias, amorios, recuerdos, pero asegurate que tengan forma de mariposa\n\nbuena suerte!! espero que te diviertas!! de preferencia documentalo, te quiero mucho, nos vemos en el dia 16` },
+            16: { abierto: false, icono: "🧿", titulo: "Día 16: Una mancha colorida", desc: `buen dia ka, ya sabes la pregunta, espero que bien y bienvenida al dia 16\n\nhoy vamos a hacer algo para vos, algo que me gustaria poder haberte dado\n\ntu reto para hoy va a ser comprar alguna flor de color intenso, como el hibisco, preferiblemente secas y vas a preparar un te con esa flor (asegurate que sea seguro)\n\ntomate el te y deja los petalos mojados, lo que vas a hacer ahora es agarrar servilletas o hojas y envolver las flores humedas en el papel, asegurando de aplastarlas para que las hojas o servilletas absorban la humedad, esto va a causar (en especial con el hibisco) manchas de colores\n\nfinalmente me gustaria que recortes esas hojas o servilletas coloridas en corazones\n\nespero te guste el resultado y que te sirva de decoracion!! te deseo lo mejor para este dia y de nuevo, te quiero mucho!!!` },
+            17: { abierto: false, icono: "💬", titulo: "Día 17: Naranjas", desc: `va va, qtal karen, bienvenida a dia 17\n\ntu reto para hoy se trata como dice el titulo de naranjas, o tambien si las preferis, de mandarinas\n\nhoy vas a tener que comprar una naranja o una mandarina y comerla en la ducha, suena absurdo pero creeme que es una experiencia particularmente placentera JAJAJAJAJJAJAJAJJAJ (PLACENTERA DECIA CHAU)\n\nanywaays, espero que lo intentes, y nos vemos en el dia 18!!! ya queda poquito!!` },
+            18: { abierto: false, icono: "🌊", titulo: "Día 18: Ni de broma", desc: `buen dia karenchuus ¿como estas? espero que que te hayas levantado de buen humor, porque tu reto de hoy va a consistir en romper el miedo al rechazo social\n\ndia 18, hoy vas a salir a la calle y entrevistar gente con preguntas absurdas, si queres, podes ir acompañada de una amistad para que se humillen juntos, da igual, pero vas a tener que acercarte a todo el mundo a entrevistarlos, ancianos, jovenes, todos!!\n\ndale vos podes mujer, espero te saque unas buenas risas!! te quiero mucho sabelo, nos vemoooos!!` },
+            19: { abierto: false, icono: "🪐", titulo: "Día 19: Sobre esperar", desc: `cuanto paso ya? 19 años, 19 dias\na que esperas?\ncuando te miras en el espejo ¿que ves?\nuna nena llena de sueños? una mujer cumpliendolos?\ncuando lloras, es tu debilidad? o es la angustia que te tormenta desde los 13?\ncuando el sol te despierta, contate ¿a que esperas?\n19 años y 19 dias, felicidades, mirate al espejo una vez mas y admira la persona que sos hoy, no la mujer, no la niña, no la hija, no la amiga, no la novia\nsolo vos, sonrei una vez mas, lo lograste, y todavia tenes un largo camino\nentonces, contame\n¿a que esperas?` },
+            20: { abierto: false, icono: "🗝️", titulo: "Día 20: Hola, amiga", desc: `no hay palabras para empezar esto, no existen las correctas, nunca existieron y ojala nunca las hayan, solo vengo a decirte gracias.\ngracias amiga, por acompañarme en estos 20 dias, estoy alegre de haber pasado tantos años a tu lado y te juro que no cambiaria ni un segundo de nuestra amistad por nada, como te dije al inicio, constituis gran parte de lo que soy hoy en día, y espero ocupar ese espacio tambien, por eso amiga mia, te decidi regalar esta experiencia, finalmente, gracias por todo y como ultima mision, te voy a pedir que escribas una carta, una carta sobre como te sentiste estos 20 dias, sobre que cambios hubieron ¿te divertiste? ¿lloraste? ¿como estuvo? quiero que sepas que son esos sentimientos y pequeños momentos en la vida los cuales nos hacen fuertes y los que realmente valen al final del dia y otra vez, gracias por tanto karen, estoy orgulloso de quien sos hoy en dia, ojala reencontrarnos prontos para poder darte el gran abrazo que te merces y que me muero por darte, te amo amiga, sos una estrella\n\nadios` }
+        };
+
+        function renderCalendario() {
+            const container = document.getElementById('calendarioAvent');
+            container.innerHTML = '';
+            let abiertos = 0;
+
+            for (let i = 1; i <= 20; i++) {
+                const dia = datosMisiones[i];
+                const div = document.createElement('div');
+                
+                if (dia.abierto) {
+                    abiertos++;
+                    div.className = 'puerta abierta';
+                    div.innerHTML = `
+                        <div class="icono">${dia.icono}</div>
+                        <div class="titulo-mision">${dia.titulo.split(':')[0]}</div>
+                        <div class="dia-ref">-${i}-</div>
+                    `;
+                } else {
+                    div.className = 'puerta cerrada';
+                    div.innerHTML = `
+                        <div class="numero">${i}</div>
+                        <div class="sub-icono">✦</div>
+                    `;
+                }
+                
+                div.onclick = () => clickDia(i);
+                container.appendChild(div);
+            }
+            document.getElementById('contadorPuertas').innerText = `${abiertos} de 20 puertas abiertas`;
+        }
+
+       
+        function clickDia(num) {
+            datosMisiones[num].abierto = true;
+            renderCalendario();
+            mostrarModal(datosMisiones[num].titulo, datosMisiones[num].desc);
+        }
+
+        function clickBonus(num) {
+            datosBonus[num].abierto = true;
+            renderBonus();
+            mostrarModal(datosBonus[num].titulo, datosBonus[num].desc);
+        }
+
+        const overlay = document.getElementById('modalOverlay');
+        
+        function mostrarModal(titulo, contenido) {
+            document.getElementById('mTitle').innerText = titulo;
+            const mBody = document.getElementById('mBody');
+            
+            if (contenido === "TAROT_INTERACTIVO") {
+                let botonesHTML = '';
+                for (let j = 0; j <= 21; j++) {
+                    botonesHTML += `<button class="tarot-card-btn" onclick="seleccionarArcano(${j})">${j}</button>`;
+                }
+                
+                mBody.innerHTML = `${introDia3}<br><br>
+                    <div class="tarot-grid-interna">
+                        ${botonesHTML}
+                    </div>
+                    <div id="tarotResponseBox"></div>`;
+            } else if (contenido === "AUDIO_PLAYER_PLAY") {
+                mBody.innerHTML = `aca grabe un audio en whatsapp, te lo deje aca abajo:<br><br>
+                    <audio controls style="width: 100%; margin-top: 10px;">
+                        <source src="parakaren.ogg" type="audio/ogg">
+                        Tu navegador no soporta este elemento de audio.
+                    </audio>`;
+            } else {
+                mBody.innerText = contenido;
+            }
+            overlay.style.display = 'flex';
+        }
+
+        function ocultarModal() {
+            overlay.style.display = 'none';
+        }
+        
+        function cerrarModal(e) {
+            if (e.target === overlay) ocultarModal();
+        }
+
+    
+
+        renderCalendario();
+        renderBonus();
+    </script>
+</body>
+</html>
