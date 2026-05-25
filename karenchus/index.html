@@ -229,76 +229,7 @@
             font-family: monospace;
         }
 
-        .grid-bonus {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-        @media (max-width: 500px) {
-            .grid-bonus { grid-template-columns: 1fr; }
-        }
-
-        .bonus-card {
-            min-height: 110px;
-            border: 1px solid rgba(255, 253, 244, 0.2);
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .bonus-card.cerrado {
-            background-color: var(--rojo-principal);
-            color: var(--bg-carta);
-        }
-        .bonus-card.cerrado:hover {
-            background-color: var(--rojo-oscuro);
-        }
-
-        .bonus-card.abierto {
-            background-color: var(--bg-carta);
-            color: var(--rojo-oscuro);
-            border: 1px solid var(--rojo-oscuro);
-        }
-        .bonus-card.abierto .icono {
-            font-size: 1.5rem;
-            color: var(--rojo-principal);
-            margin-bottom: 6px;
-        }
-        .bonus-card.abierto .texto {
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .music-player-widget {
-            border: 1px dashed var(--rosa-pastel);
-            padding: 15px;
-            text-align: center;
-            background: rgba(255,255,255,0.02);
-            margin: 20px 0;
-        }
-        .music-player-widget input {
-            background: transparent;
-            border: 1px solid var(--rosa-pastel);
-            color: var(--bg-carta);
-            padding: 6px 10px;
-            width: 70%;
-            font-size: 0.8rem;
-            text-align: center;
-        }
-        .music-player-widget button {
-            background: var(--rojo-principal);
-            color: var(--bg-carta);
-            border: none;
-            padding: 6px 12px;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-
+       
         .overlay {
             position: fixed;
             top: 0;
